@@ -17,7 +17,7 @@ import torch.backends.cudnn as cudnn
 import torchvision.transforms as transforms
 
 import datasets
-import models
+from models import LeNetPlus
 from utils import AverageMeter, Logger
 from center_loss import CenterLoss
 
@@ -74,7 +74,7 @@ def main():
     testloader = torch.utils.data.DataLoader(testset, batch_size=args.batch_size, shuffle=False, num_workers=args.workers)
 
     print("Creating model: {}".format(args.model))
-    model = models.create(name=args.model, num_classes=args.num_classes)
+    model = LeNetPlus(num_classes=args.num_classes)
 
     if use_gpu:
         model = nn.DataParallel(model).cuda()
