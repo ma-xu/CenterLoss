@@ -1,3 +1,6 @@
+"""
+Generate gif from images.
+"""
 import argparse
 import os.path as path
 try:
@@ -15,16 +18,20 @@ parser.add_argument('--fps', default=2, type=int)
 
 args = parser.parse_args()
 
-def main():
-    outfilename = path.join(args.folder,args.out)
 
+def main():
+    outfile_name = path.join(args.folder,args.out)
     gif_images = []
     for i in range(1, args.number+1):
-        imagepath = args.prefix+str(i)+args.suffix
-        imagepath = path.join(args.folder, imagepath)
-        gif_images.append(imageio.imread(imagepath))
-    imageio.mimsave(outfilename, gif_images, fps=args.fps)
+        image_path = args.prefix+str(i)+args.suffix
+        image_path = path.join(args.folder, image_path)
+        if path.exists(image_path):
+            gif_images.append(imageio.imread(image_path))
+        else:
+            print(f"Image {image_path} not exists. Ignored.")
+    imageio.mimsave(outfile_name, gif_images, fps=args.fps)
     print("Done!")
+
 
 if __name__ == '__main__':
     main()
